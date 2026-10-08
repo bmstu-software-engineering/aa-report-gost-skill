@@ -1,0 +1,184 @@
+\documentclass[14pt,a4paper]{extarticle}
+
+\usepackage{fontspec}
+\usepackage[russian]{babel}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Menlo}
+
+\usepackage[left=30mm,right=15mm,top=20mm,bottom=20mm]{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\urlstyle{same}
+
+\addto\captionsrussian{\renewcommand{\contentsname}{СОДЕРЖАНИЕ}}
+
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{3em}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\sloppy
+\setlength{\rightskip}{0.5mm}
+\AtBeginDocument{%
+    \setlength{\abovedisplayskip}{0pt}%
+    \setlength{\abovedisplayshortskip}{0pt}%
+}
+\hypersetup{
+    hidelinks,
+    pdftitle={Сравнительный анализ ресурсной эффективности алгоритмов},
+    pdfauthor={Ананьев Никита Андреевич}
+}
+
+\setlist[itemize]{
+    label=---,
+    labelindent=\parindent,
+    leftmargin=*,
+    nosep
+}
+\setlist[enumerate]{
+    label=\arabic*),
+    labelindent=\parindent,
+    leftmargin=*,
+    nosep
+}
+
+\titleformat{\section}[hang]
+    {\normalfont\Large\bfseries\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}
+    {\hspace*{1.25cm}\thesection}{.5em}{}
+\titleformat{name=\section,numberless}[block]
+    {\normalfont\Large\bfseries\centering\hyphenpenalty=10000\exhyphenpenalty=10000}
+    {}{0pt}{}
+\titleformat{\subsection}[hang]
+    {\normalfont\large\bfseries\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}
+    {\hspace*{1.25cm}\thesubsection}{.5em}{}
+\titlespacing{\section}{0pt}
+    {0pt}{2.3ex plus .2ex}
+\titlespacing{\subsection}{0pt}
+    {3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\captionsetup{labelsep=endash}
+\captionsetup[figure]{name=Рисунок,justification=centering}
+\captionsetup[table]{name=Таблица,justification=raggedright,
+    singlelinecheck=false,skip=2pt}
+\setlength{\doublerulesep}{0.5pt}
+
+\makeatletter
+\renewcommand{\tagform@}[1]{%
+    \maketag@@@{\kern1mm(\ignorespaces#1\unskip\@@italiccorr)\kern1mm}}
+\renewcommand{\@biblabel}[1]{#1.}
+\renewenvironment{thebibliography}[1]
+    {\section*{\refname}%
+     \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
+     \list{\@biblabel{\@arabic\c@enumiv}}%
+          {\settowidth\labelwidth{\@biblabel{#1}}%
+           \leftmargin\z@
+           \itemindent\dimexpr\parindent+\labelwidth+\labelsep\relax
+           \rightmargin 5mm
+           \@openbib@code
+           \usecounter{enumiv}%
+           \let\p@enumiv\@empty
+           \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+     \sloppy
+     \clubpenalty4000
+     \@clubpenalty\clubpenalty
+     \widowpenalty4000
+     \sfcode`\.\@m}
+    {\def\@noitemerr
+         {\@latex@warning{Empty `thebibliography' environment}}%
+     \endlist}
+\renewcommand*\l@section[2]{%
+    \ifnum\c@tocdepth>\z@
+        \addpenalty\@secpenalty
+        \addvspace{.5em \@plus\p@}%
+        \setlength\@tempdima{\dimexpr\parindent+1.5em\relax}%
+        \begingroup
+        \parindent\z@ \rightskip\@pnumwidth
+        \parfillskip-\@pnumwidth
+        \leavevmode\bfseries
+        \advance\leftskip\@tempdima
+        \hskip-\leftskip
+        \hspace*{1.25cm}%
+        #1\nobreak\hfil\nobreak
+        \hb@xt@\@pnumwidth{\hss #2}\par
+        \endgroup
+    \fi}
+\renewcommand*\l@subsection[2]{%
+    \@dottedtocline{2}{1.25cm}{2.8em}{#1}{#2}}
+\makeatother
+
+\lstset{
+    basicstyle=\normalfont\normalsize\rmfamily\setstretch{1},
+    keywordstyle=\color{black},
+    commentstyle=\color{black},
+    stringstyle=\color{black},
+    numbers=left,
+    numberstyle=\normalfont\normalsize\rmfamily,
+    stepnumber=1,
+    numbersep=5pt,
+    xleftmargin=9mm,
+    linewidth=\dimexpr\linewidth-9mm\relax,
+    frame=single,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4
+}
+\renewcommand{\lstlistingname}{Листинг}
+
+\tikzset{
+    algorithm block/.style={draw,align=center,minimum width=64mm,
+        inner xsep=0pt,inner ysep=2pt},
+    terminator/.style={algorithm block,rectangle,rounded corners=5mm,
+        minimum height=10mm},
+    data/.style={trapezium,trapezium left angle=70,
+        trapezium right angle=110,trapezium stretches=true,
+        algorithm block,text width=54mm,minimum height=10mm},
+    process/.style={algorithm block,rectangle,text width=54mm,
+        minimum height=10mm},
+    decision/.style={diamond,draw,align=center,aspect=3.2,
+        minimum width=64mm,minimum height=20mm,inner sep=0pt},
+    loop start/.style={rectangle,align=center,draw=none,
+        minimum width=64mm,minimum height=12mm,text width=54mm,
+        inner xsep=0pt,inner ysep=2pt,path picture={
+            \draw[black]
+                ([yshift=-5mm]path picture bounding box.north west) --
+                ([xshift=5mm]path picture bounding box.north west) --
+                ([xshift=-5mm]path picture bounding box.north east) --
+                ([yshift=-5mm]path picture bounding box.north east) --
+                (path picture bounding box.south east) --
+                (path picture bounding box.south west) -- cycle;
+        }},
+    loop end/.style={rectangle,align=center,draw=none,
+        minimum width=64mm,minimum height=12mm,text width=54mm,
+        inner xsep=0pt,inner ysep=2pt,path picture={
+            \draw[black]
+                (path picture bounding box.north west) --
+                (path picture bounding box.north east) --
+                ([yshift=5mm]path picture bounding box.south east) --
+                ([xshift=-5mm]path picture bounding box.south east) --
+                ([xshift=5mm]path picture bounding box.south west) --
+                ([yshift=5mm]path picture bounding box.south west) -- cycle;
+        }},
+    flow/.style={draw,-{Latex[length=2.5mm]}},
+    every node/.style={font=\small}
+}
